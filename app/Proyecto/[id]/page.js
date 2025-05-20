@@ -155,6 +155,7 @@ export default function ProyectoPublicoPage() {
       id: key,
       nombre: getNombreArea(key),
       descripcion: area.descripcion,
+      imagenURL: area.imagenURL,
     }));
 
   return (
@@ -227,19 +228,25 @@ export default function ProyectoPublicoPage() {
                   </motion.div>
                 )}
 
-                {proyecto.brochureURL && (
+                {proyecto.brochureUrl && (
                   <motion.div
                     variants={itemFadeIn}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Button
-                      size="lg"
-                      className="bg-white text-[#1E88E5] hover:bg-white/90 border-none"
-                      onClick={() => setVerBrochureModalOpen(true)}
+                    <a
+                      href={proyecto?.brochureUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center  justify-center hover:cursor-pointer"
                     >
-                      <FileText className="mr-2 h-4 w-4" /> Ver Brochure
-                    </Button>
+                      <Button
+                        size="lg"
+                        className="bg-white text-[#1E88E5] hover:bg-white/90 border-none flex flex-row "
+                      >
+                        <FileText className="mr-2 h-4 w-4" /> Ver Brochure
+                      </Button>
+                    </a>
                   </motion.div>
                 )}
               </motion.div>
@@ -460,7 +467,7 @@ export default function ProyectoPublicoPage() {
                 </TabsList>
               </motion.div>
 
-              {tiposDepartamentos.map((tipo) => (
+              {tiposDepartamentos?.map((tipo) => (
                 <TabsContent
                   key={tipo.id}
                   value={tipo.id.toString()}
@@ -772,9 +779,7 @@ export default function ProyectoPublicoPage() {
                         <Card className="border-none shadow-lg overflow-hidden group">
                           <div className="relative">
                             <Image
-                              src={
-                                getImageForArea(area.id) || "/placeholder.svg"
-                              }
+                              src={area?.imagenURL}
                               alt={area.nombre}
                               width={600}
                               height={400}
@@ -1092,45 +1097,6 @@ export default function ProyectoPublicoPage() {
           </div>
         </div>
       </motion.section>
-
-      {/* Modal para ver brochure */}
-      <Dialog
-        open={verBrochureModalOpen}
-        onOpenChange={(open) => !open && setVerBrochureModalOpen(false)}
-      >
-        <DialogContent className="max-w-4xl h-[80vh]">
-          <DialogHeader>
-            <DialogTitle>Brochure: {proyecto.nombre}</DialogTitle>
-            <DialogDescription>
-              Vista previa del brochure del proyecto.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="w-full h-full mt-4 flex flex-col">
-            <iframe
-              src={proyecto.brochureURL}
-              className="w-full flex-1 border rounded-md"
-              title="Vista previa del PDF"
-            />
-
-            <div className="flex justify-end mt-4 gap-2">
-              <Button variant="outline" asChild>
-                <a
-                  href={proyecto.brochureURL}
-                  download={proyecto.brochureNombre || "brochure.pdf"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Download className="mr-2 h-4 w-4" /> Descargar
-                </a>
-              </Button>
-              <Button onClick={() => setVerBrochureModalOpen(false)}>
-                Cerrar
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

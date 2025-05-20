@@ -108,7 +108,7 @@ export default function ProjectsShowcase() {
             Descubra nuestros exclusivos proyectos inmobiliarios diseñados para
             ofrecer la mejor calidad de vida y excelente inversión.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -137,7 +137,7 @@ export default function ProjectsShowcase() {
 
                     {/* Status badge */}
                     <div className="absolute top-4 left-4">
-                      <span className="bg-blue-600 text-white px-4 py-1 text-sm font-medium rounded-sm">
+                      <span className="bg-[#193148] text-white px-4 py-1 text-sm font-medium rounded-sm">
                         {project.status}
                       </span>
                     </div>
@@ -209,7 +209,7 @@ export default function ProjectsShowcase() {
                 </h3>
 
                 <div className="flex items-center text-gray-600 mb-6">
-                  <MapPin className="h-4 w-4 mr-2 text-blue-600" />
+                  <MapPin className="h-4 w-4 mr-2 text-[#193148]" />
                   <span>{project.location}</span>
                 </div>
 
@@ -217,13 +217,13 @@ export default function ProjectsShowcase() {
 
                 <div className="grid grid-cols-2 gap-y-4 mb-8">
                   <div className="flex items-center">
-                    <Home className="h-5 w-5 text-blue-600 mr-2" />
+                    <Home className="h-5 w-5 text-[#193148] mr-2" />
                     <span className="text-gray-700">{project.features[0]}</span>
                   </div>
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-blue-600 mr-2"
+                      className="h-5 w-5 text-[#193148] mr-2"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -236,7 +236,7 @@ export default function ProjectsShowcase() {
                     <span className="text-gray-700">{project.features[1]}</span>
                   </div>
                   <div className="flex items-center">
-                    <Calendar className="h-5 w-5 text-blue-600 mr-2" />
+                    <Calendar className="h-5 w-5 text-[#193148] mr-2" />
                     <span className="text-gray-700">
                       Entrega: {project.delivery}
                     </span>
@@ -244,7 +244,7 @@ export default function ProjectsShowcase() {
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-blue-600 mr-2"
+                      className="h-5 w-5 text-[#193148] mr-2"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -263,13 +263,13 @@ export default function ProjectsShowcase() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
                     href={project.link}
-                    className="flex-1 inline-flex justify-center items-center px-6 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors rounded-md"
+                    className="flex-1 inline-flex justify-center items-center px-6 py-3 bg-[#193148] text-white font-medium hover:bg-blue-700 transition-colors rounded-md"
                   >
                     Ver proyecto
                   </Link>
                   <Link
                     href={project.brochureLink}
-                    className="flex-1 inline-flex justify-center items-center px-6 py-3 border border-blue-600 text-blue-600 font-medium hover:bg-blue-50 transition-colors rounded-md"
+                    className="flex-1 inline-flex justify-center items-center px-6 py-3 border border-blue-600 text-[#193148] font-medium hover:bg-blue-50 transition-colors rounded-md"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Brochure
@@ -281,7 +281,7 @@ export default function ProjectsShowcase() {
               <div className="flex justify-between items-center mt-6">
                 <button
                   onClick={prevProject}
-                  className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                  className="flex items-center text-gray-600 hover:text-[#193148] transition-colors"
                 >
                   <ChevronLeft className="h-5 w-5 mr-1" />
                   <span className="text-sm font-medium">Anterior</span>
@@ -298,7 +298,7 @@ export default function ProjectsShowcase() {
                       className={cn(
                         "w-2.5 h-2.5 rounded-full transition-all duration-300",
                         idx === currentProject
-                          ? "bg-blue-600 scale-125"
+                          ? "bg-[#193148] scale-125"
                           : "bg-gray-300 hover:bg-gray-400"
                       )}
                       aria-label={`Ver proyecto ${idx + 1}`}
@@ -308,7 +308,7 @@ export default function ProjectsShowcase() {
 
                 <button
                   onClick={nextProject}
-                  className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                  className="flex items-center text-gray-600 hover:text-[#193148] transition-colors"
                 >
                   <span className="text-sm font-medium">Siguiente</span>
                   <ChevronRight className="h-5 w-5 ml-1" />
@@ -327,7 +327,7 @@ export default function ProjectsShowcase() {
         >
           <Link
             href="/ProyectosEnVenta"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
+            className="inline-flex items-center text-[#193148] hover:text-blue-800 font-medium transition-colors"
           >
             Ver todos los proyectos
             <ArrowRight className="ml-2 h-4 w-4" />

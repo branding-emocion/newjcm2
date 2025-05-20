@@ -246,7 +246,7 @@ function ProyectoCard({ proyecto }) {
             </>
           )}
           <div className="absolute top-4 left-4 bg-white/90 px-4 py-2 rounded-md">
-            <h3 className="text-xl font-bold text-blue-600">
+            <h3 className="text-xl font-bold text-[#193148]">
               {proyecto.nombre}
             </h3>
             <div className="flex items-center text-gray-700 mt-1">
@@ -254,7 +254,7 @@ function ProyectoCard({ proyecto }) {
               <span className="text-sm">{proyecto.ubicacion}</span>
             </div>
           </div>
-          <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-medium">
+          <div className="absolute top-4 right-4 bg-[#193148] text-white px-3 py-1 rounded-md text-sm font-medium">
             {proyecto.estado}
           </div>
         </div>
@@ -283,7 +283,7 @@ function ProyectoCard({ proyecto }) {
                   <ul className="space-y-2">
                     {proyecto.tipos.map((tipo, index) => (
                       <li key={index} className="flex items-center">
-                        <Ruler className="h-4 w-4 mr-2 text-blue-600" />
+                        <Ruler className="h-4 w-4 mr-2 text-[#193148]" />
                         <span>{tipo.area}</span>
                       </li>
                     ))}
@@ -373,15 +373,15 @@ function ProyectoCard({ proyecto }) {
                       <li key={index} className="flex items-start">
                         <div className="bg-blue-100 p-1 rounded-full mr-3 mt-0.5">
                           {index % 5 === 0 ? (
-                            <Building2 className="h-4 w-4 text-blue-600" />
+                            <Building2 className="h-4 w-4 text-[#193148]" />
                           ) : index % 5 === 1 ? (
-                            <Dumbbell className="h-4 w-4 text-blue-600" />
+                            <Dumbbell className="h-4 w-4 text-[#193148]" />
                           ) : index % 5 === 2 ? (
-                            <Wifi className="h-4 w-4 text-blue-600" />
+                            <Wifi className="h-4 w-4 text-[#193148]" />
                           ) : index % 5 === 3 ? (
-                            <Utensils className="h-4 w-4 text-blue-600" />
+                            <Utensils className="h-4 w-4 text-[#193148]" />
                           ) : (
-                            <Coffee className="h-4 w-4 text-blue-600" />
+                            <Coffee className="h-4 w-4 text-[#193148]" />
                           )}
                         </div>
                         <span>{caracteristica}</span>
@@ -417,7 +417,7 @@ function ProyectoCard({ proyecto }) {
                   <ul className="space-y-3">
                     <li className="flex items-center">
                       <svg
-                        className="h-5 w-5 mr-3 text-blue-600"
+                        className="h-5 w-5 mr-3 text-[#193148]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -433,7 +433,7 @@ function ProyectoCard({ proyecto }) {
                     </li>
                     <li className="flex items-center">
                       <svg
-                        className="h-5 w-5 mr-3 text-blue-600"
+                        className="h-5 w-5 mr-3 text-[#193148]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -449,7 +449,7 @@ function ProyectoCard({ proyecto }) {
                     </li>
                     <li className="flex items-center">
                       <svg
-                        className="h-5 w-5 mr-3 text-blue-600"
+                        className="h-5 w-5 mr-3 text-[#193148]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -471,7 +471,7 @@ function ProyectoCard({ proyecto }) {
                     </li>
                     <li className="flex items-center">
                       <svg
-                        className="h-5 w-5 mr-3 text-blue-600"
+                        className="h-5 w-5 mr-3 text-[#193148]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -494,7 +494,7 @@ function ProyectoCard({ proyecto }) {
                       Redes sociales
                     </h4>
                     <div className="flex space-x-4">
-                      <a href="#" className="text-blue-600 hover:text-blue-800">
+                      <a href="#" className="#193148 hover:text-blue-800">
                         <svg
                           className="h-6 w-6"
                           fill="currentColor"
@@ -523,7 +523,7 @@ function ProyectoCard({ proyecto }) {
                       href={proyecto.contacto.modelo3d}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                      className="inline-flex items-center text-[#193148] hover:text-blue-800"
                     >
                       <svg
                         className="h-5 w-5 mr-2"
@@ -547,7 +547,7 @@ function ProyectoCard({ proyecto }) {
           </Tabs>
 
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
-            <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
+            <Button className="flex-1 bg-[#193148] hover:bg-blue-700">
               <a
                 href={`tel:+51${proyecto.contacto.telefono}`}
                 className="flex justify-center items-center "

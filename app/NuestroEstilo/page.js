@@ -15,7 +15,7 @@ export default function NuestroEstiloPage() {
       <MaterialsSection />
       <GallerySection />
       <ProcessSection />
-      <CTASection />
+      {/* <CTASection /> */}
     </main>
   );
 }
@@ -137,7 +137,7 @@ function StyleFeaturesSection() {
             que definen nuestro estilo único y garantizan la máxima satisfacción
             de nuestros clientes.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <div className="space-y-24">
@@ -184,7 +184,7 @@ function StyleFeatureItem({ feature, index, isInView }) {
           >
             <div className="aspect-[4/3] relative">
               <Image
-                src={feature.images[0] || "/placeholder.svg"}
+                src={feature.images[0]}
                 alt={feature.title}
                 fill
                 className="object-cover"
@@ -227,17 +227,10 @@ function StyleFeatureItem({ feature, index, isInView }) {
           <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             {feature.title}
           </h3>
-          <div className="w-16 h-1 bg-blue-600 mb-6"></div>
+          <div className="w-16 h-1 bg-[#193148] mb-6"></div>
           <p className="text-gray-600 leading-relaxed mb-6">
             {feature.description}
           </p>
-          <Link
-            href={`/ProyectosEnVenta`}
-            className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
-          >
-            Ver proyectos con esta característica
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
         </motion.div>
       </div>
     </motion.div>
@@ -291,7 +284,7 @@ function MaterialsSection() {
             garantizar la durabilidad, estética y funcionalidad de nuestros
             proyectos.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -401,7 +394,7 @@ function GallerySection() {
             Explore nuestra galería de imágenes para apreciar el estilo
             distintivo y la calidad de nuestros proyectos inmobiliarios.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -424,7 +417,7 @@ function GallerySection() {
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                  <span className="text-white text-sm font-medium bg-blue-600 px-2 py-1 rounded-md inline-block mb-2 w-fit">
+                  <span className="text-white text-sm font-medium bg-[#193148] px-2 py-1 rounded-md inline-block mb-2 w-fit">
                     {image.category}
                   </span>
                   <h3 className="text-white text-lg font-semibold">
@@ -575,7 +568,7 @@ function ProcessSection() {
             Conozca el meticuloso proceso que seguimos para garantizar la
             excelencia en cada uno de nuestros proyectos inmobiliarios.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <div className="max-w-3xl mx-auto">
@@ -605,7 +598,7 @@ function ProcessSection() {
                       className={cn(
                         "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mr-3 transition-colors",
                         openItem === index
-                          ? "bg-blue-600 text-white"
+                          ? "bg-[#193148] text-white"
                           : "bg-gray-200 text-gray-700"
                       )}
                     >
@@ -617,7 +610,7 @@ function ProcessSection() {
                   </div>
                   <div>
                     {openItem === index ? (
-                      <Minus className="h-5 w-5 text-blue-600" />
+                      <Minus className="h-5 w-5 text-[#193148]" />
                     ) : (
                       <Plus className="h-5 w-5 text-gray-500" />
                     )}
@@ -662,7 +655,7 @@ function CTASection() {
   ];
 
   return (
-    <section ref={ref} className="py-20 bg-blue-600 text-white">
+    <section ref={ref} className="py-20 bg-[#193148] text-white">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -699,7 +692,7 @@ function CTASection() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/ProyectosEnVenta"
-                className="px-6 py-3 bg-white text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors"
+                className="px-6 py-3 bg-white text-[#193148] font-medium rounded-md hover:bg-blue-50 transition-colors"
               >
                 Ver Proyectos
               </Link>

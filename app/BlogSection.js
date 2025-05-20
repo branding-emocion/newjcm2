@@ -87,7 +87,7 @@ export default function BlogSection() {
             Descubre consejos, tendencias y novedades del mundo inmobiliario
             para tomar las mejores decisiones.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <motion.div
@@ -116,16 +116,16 @@ export default function BlogSection() {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center text-sm text-gray-500 mb-3">
                     <div className="flex items-center mr-4">
-                      <Calendar className="h-4 w-4 mr-1 text-blue-600" />
+                      <Calendar className="h-4 w-4 mr-1 text-[#193148]" />
                       <span>{post.date}</span>
                     </div>
                     <div className="flex items-center">
-                      <Clock className="h-4 w-4 mr-1 text-blue-600" />
+                      <Clock className="h-4 w-4 mr-1 text-[#193148]" />
                       <span>{post.readTime}</span>
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#193148] transition-colors">
                     {post.title}
                   </h3>
 
@@ -133,13 +133,13 @@ export default function BlogSection() {
 
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                     <div className="flex items-center text-sm text-gray-500">
-                      <User className="h-4 w-4 mr-1 text-blue-600" />
+                      <User className="h-4 w-4 mr-1 text-[#193148]" />
                       <span>{post.author}</span>
                     </div>
 
                     <Link
                       href={post.link}
-                      className="inline-flex items-center text-blue-600 font-medium text-sm group-hover:text-blue-800 transition-colors"
+                      className="inline-flex items-center text-[#193148] font-medium text-sm group-hover:text-blue-800 transition-colors"
                     >
                       Leer más
                       <motion.div
@@ -166,7 +166,7 @@ export default function BlogSection() {
         >
           <Link
             href="/blog"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 font-medium rounded-md"
+            className="inline-flex items-center px-6 py-3 bg-[#193148] text-white hover:bg-blue-700 transition-colors duration-300 font-medium rounded-md"
           >
             VER TODOS LOS ARTÍCULOS
             <ArrowRight className="ml-2 h-4 w-4" />

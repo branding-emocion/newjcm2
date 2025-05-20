@@ -10,7 +10,7 @@ export default function AboutSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-blue-600 text-white py-20">
+    <section ref={ref} className="bg-[#193148] text-white py-20">
       <div className="container mx-auto px-4">
         <motion.div
           className="max-w-4xl mx-auto text-center"
@@ -46,7 +46,7 @@ export default function AboutSection() {
           >
             <Link
               href="/quienes-somos"
-              className="inline-flex items-center px-6 py-3 border border-white text-white hover:bg-white hover:text-blue-600 transition-colors duration-300 font-medium"
+              className="inline-flex items-center px-6 py-3 border border-white text-white hover:bg-white hover:text-[#193148] transition-colors duration-300 font-medium"
             >
               LEER MÁS
               <ArrowRight className="ml-2 h-4 w-4" />

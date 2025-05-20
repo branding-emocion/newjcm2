@@ -132,7 +132,7 @@ function HeroSection() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="inline-block bg-blue-600 text-white px-3 py-1 text-sm font-medium rounded-md mb-4">
+            <div className="inline-block bg-[#193148] text-white px-3 py-1 text-sm font-medium rounded-md mb-4">
               RESIDENCIAL
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -144,7 +144,7 @@ function HeroSection() {
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
               <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                <Home className="h-6 w-6 text-blue-600 mb-2" />
+                <Home className="h-6 w-6 text-[#193148] mb-2" />
                 <span className="text-sm text-gray-600 text-center">
                   2-3 Dormitorios
                 </span>
@@ -152,7 +152,7 @@ function HeroSection() {
               <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-blue-600 mb-2"
+                  className="h-6 w-6 text-[#193148] mb-2"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -167,13 +167,13 @@ function HeroSection() {
                 </span>
               </div>
               <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                <MapPin className="h-6 w-6 text-blue-600 mb-2" />
+                <MapPin className="h-6 w-6 text-[#193148] mb-2" />
                 <span className="text-sm text-gray-600 text-center">
                   Urb. California
                 </span>
               </div>
               <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                <DollarSign className="h-6 w-6 text-blue-600 mb-2" />
+                <DollarSign className="h-6 w-6 text-[#193148] mb-2" />
                 <span className="text-sm text-gray-600 text-center">
                   Desde $120,000
                 </span>
@@ -181,7 +181,7 @@ function HeroSection() {
               <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-blue-600 mb-2"
+                  className="h-6 w-6 text-[#193148] mb-2"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -203,7 +203,7 @@ function HeroSection() {
               <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-blue-600 mb-2"
+                  className="h-6 w-6 text-[#193148] mb-2"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -223,14 +223,14 @@ function HeroSection() {
             <div className="flex flex-wrap gap-4 mb-8">
               <Link
                 href="#contacto"
-                className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors flex items-center"
+                className="px-6 py-3 bg-[#193148] text-white font-medium rounded-md hover:bg-blue-700 transition-colors flex items-center"
               >
                 Solicitar información
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
               <Link
                 href="/brochure/las-hortensias-269"
-                className="px-6 py-3 border border-blue-600 text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors flex items-center"
+                className="px-6 py-3 border border-blue-600 text-[#193148] font-medium rounded-md hover:bg-blue-50 transition-colors flex items-center"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Descargar brochure
@@ -242,7 +242,7 @@ function HeroSection() {
                 href="https://wa.me/51947455553?text=Hola,%20estoy%20interesado%20en%20Las%20Hortensias%20269"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center text-gray-700 hover:text-blue-600 transition-colors"
+                className="flex items-center text-gray-700 hover:text-[#193148] transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -256,14 +256,14 @@ function HeroSection() {
               </Link>
               <Link
                 href="tel:+51947455553"
-                className="flex items-center text-gray-700 hover:text-blue-600 transition-colors"
+                className="flex items-center text-gray-700 hover:text-[#193148] transition-colors"
               >
                 <Phone className="h-5 w-5 mr-2" />
                 Llamar
               </Link>
               <Link
                 href="mailto:ventas@jcmconstructora.com"
-                className="flex items-center text-gray-700 hover:text-blue-600 transition-colors"
+                className="flex items-center text-gray-700 hover:text-[#193148] transition-colors"
               >
                 <Mail className="h-5 w-5 mr-2" />
                 Email
@@ -412,7 +412,7 @@ function ProjectInfoSection() {
                         key={index}
                         className="flex items-center text-gray-700"
                       >
-                        <Check className="h-4 w-4 text-blue-600 mr-2 flex-shrink-0" />
+                        <Check className="h-4 w-4 text-[#193148] mr-2 flex-shrink-0" />
                         <span>{amenity}</span>
                       </li>
                     ))}
@@ -451,7 +451,7 @@ function ProjectInfoSection() {
 
                   <div className="mb-6">
                     <div className="flex items-center mb-2">
-                      <DollarSign className="h-5 w-5 text-blue-600 mr-2" />
+                      <DollarSign className="h-5 w-5 text-[#193148] mr-2" />
                       <span className="font-medium">Desde $120,000</span>
                     </div>
                     <p className="text-sm text-gray-600 mb-4">
@@ -461,7 +461,7 @@ function ProjectInfoSection() {
 
                     <Link
                       href="#contacto"
-                      className="block w-full py-3 px-4 bg-blue-600 text-white text-center font-medium rounded-md hover:bg-blue-700 transition-colors mb-3"
+                      className="block w-full py-3 px-4 bg-[#193148] text-white text-center font-medium rounded-md hover:bg-blue-700 transition-colors mb-3"
                       onClick={() =>
                         document.getElementById("contacto").click()
                       }
@@ -471,7 +471,7 @@ function ProjectInfoSection() {
 
                     <Link
                       href="/brochure/las-hortensias-269"
-                      className="block w-full py-3 px-4 bg-white text-blue-600 text-center font-medium rounded-md border border-blue-600 hover:bg-blue-50 transition-colors"
+                      className="block w-full py-3 px-4 bg-white text-[#193148] text-center font-medium rounded-md border border-blue-600 hover:bg-blue-50 transition-colors"
                     >
                       Descargar brochure
                     </Link>
@@ -494,7 +494,7 @@ function ProjectInfoSection() {
                       href="https://maps.google.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm flex items-center"
+                      className="text-[#193148] hover:underline text-sm flex items-center"
                     >
                       <MapPin className="h-4 w-4 mr-1" /> Ver en Google Maps
                     </Link>
@@ -632,19 +632,19 @@ function ProjectInfoSection() {
                         <h3 className="text-xl font-bold text-gray-900">
                           {plan.title}
                         </h3>
-                        <span className="text-blue-600 font-semibold">
+                        <span className="text-[#193148] font-semibold">
                           {plan.area}
                         </span>
                       </div>
                       <div className="flex space-x-4 text-gray-600 mb-3">
                         <span className="flex items-center">
-                          <Home className="h-4 w-4 text-blue-600 mr-1" />
+                          <Home className="h-4 w-4 text-[#193148] mr-1" />
                           {plan.bedrooms} Dormitorios
                         </span>
                         <span className="flex items-center">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-blue-600 mr-1"
+                            className="h-4 w-4 text-[#193148] mr-1"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -671,7 +671,7 @@ function ProjectInfoSection() {
                           onClick={() =>
                             document.getElementById("contacto").click()
                           }
-                          className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
+                          className="text-[#193148] hover:text-blue-800 font-medium flex items-center"
                         >
                           Más información
                           <ArrowRight className="ml-1 h-4 w-4" />
@@ -700,7 +700,7 @@ function ProjectInfoSection() {
                 {/* Phases */}
                 <div className="space-y-12 ml-12">
                   <div className="relative">
-                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-blue-600 shadow"></div>
+                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-[#193148] shadow"></div>
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-xl font-bold text-gray-900">
@@ -734,7 +734,7 @@ function ProjectInfoSection() {
                   </div>
 
                   <div className="relative">
-                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-blue-600 shadow"></div>
+                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-[#193148] shadow"></div>
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-xl font-bold text-gray-900">
@@ -769,7 +769,7 @@ function ProjectInfoSection() {
                   </div>
 
                   <div className="relative">
-                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-blue-600 shadow"></div>
+                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-[#193148] shadow"></div>
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-xl font-bold text-gray-900">
@@ -804,7 +804,7 @@ function ProjectInfoSection() {
                   </div>
 
                   <div className="relative">
-                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-blue-600 shadow"></div>
+                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-[#193148] shadow"></div>
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-xl font-bold text-gray-900">
@@ -839,7 +839,7 @@ function ProjectInfoSection() {
                   </div>
 
                   <div className="relative">
-                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-blue-600 shadow"></div>
+                    <div className="absolute -left-[3.25rem] mt-1.5 w-6 h-6 rounded-full border-4 border-white bg-[#193148] shadow"></div>
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 border-blue-200 ring-2 ring-blue-100">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-xl font-bold text-gray-900">
@@ -900,7 +900,7 @@ function ProjectInfoSection() {
                 <div className="mb-4">
                   <div className="w-full bg-gray-200 rounded-full h-4">
                     <div
-                      className="bg-blue-600 h-4 rounded-full"
+                      className="bg-[#193148] h-4 rounded-full"
                       style={{ width: "83%" }}
                     ></div>
                   </div>
@@ -1041,14 +1041,14 @@ function ProjectInfoSection() {
                         type="checkbox"
                         id="privacy"
                         required
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-[#193148] focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <label
                         htmlFor="privacy"
                         className="ml-2 block text-sm text-gray-700"
                       >
                         Acepto la{" "}
-                        <a href="#" className="text-blue-600 hover:underline">
+                        <a href="#" className="text-[#193148] hover:underline">
                           política de privacidad
                         </a>
                       </label>
@@ -1056,7 +1056,7 @@ function ProjectInfoSection() {
 
                     <button
                       type="submit"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center"
+                      className="w-full bg-[#193148] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center"
                     >
                       <Send className="mr-2 h-4 w-4" /> Enviar mensaje
                     </button>
@@ -1070,7 +1070,7 @@ function ProjectInfoSection() {
                     </h3>
                     <div className="space-y-4">
                       <div className="flex">
-                        <MapPin className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                        <MapPin className="h-5 w-5 text-[#193148] mr-3 flex-shrink-0 mt-0.5" />
                         <div>
                           <h4 className="font-medium text-gray-900">
                             Dirección
@@ -1081,7 +1081,7 @@ function ProjectInfoSection() {
                         </div>
                       </div>
                       <div className="flex">
-                        <Phone className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                        <Phone className="h-5 w-5 text-[#193148] mr-3 flex-shrink-0 mt-0.5" />
                         <div>
                           <h4 className="font-medium text-gray-900">
                             Teléfono
@@ -1092,7 +1092,7 @@ function ProjectInfoSection() {
                         </div>
                       </div>
                       <div className="flex">
-                        <Mail className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                        <Mail className="h-5 w-5 text-[#193148] mr-3 flex-shrink-0 mt-0.5" />
                         <div>
                           <h4 className="font-medium text-gray-900">Email</h4>
                           <p className="text-gray-600">
@@ -1109,31 +1109,31 @@ function ProjectInfoSection() {
                     </h3>
                     <ul className="space-y-2">
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <Check className="h-5 w-5 text-[#193148] mr-2 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">
                           Más de 12 años de experiencia en el mercado
                         </span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <Check className="h-5 w-5 text-[#193148] mr-2 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">
                           Acabados importados de Europa
                         </span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <Check className="h-5 w-5 text-[#193148] mr-2 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">
                           Ubicaciones estratégicas en zonas de alta plusvalía
                         </span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <Check className="h-5 w-5 text-[#193148] mr-2 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">
                           Diseños modernos con amplios espacios
                         </span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                        <Check className="h-5 w-5 text-[#193148] mr-2 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">
                           Excelente iluminación natural
                         </span>

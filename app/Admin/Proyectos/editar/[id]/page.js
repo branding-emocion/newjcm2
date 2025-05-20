@@ -465,12 +465,46 @@ export default function EditarProyectoPage() {
         }
       });
 
+      // Procesar los planos de los tipos de departamentos primero
+      const tiposDepartamentosActualizados = await Promise.all(
+        tiposDepartamentos.map(async (tipo) => {
+          // Si hay un nuevo archivo de plano, subirlo
+          if (tipo.planoFile) {
+            const path = `proyectos/${id}/planos/${tipo.id}_${Date.now()}_${
+              tipo.planoFile.name
+            }`;
+            const planoURL = await subirImagen(tipo.planoFile, path);
+
+            // Devolver el tipo con la URL del plano actualizada
+            return {
+              ...tipo,
+              planoURL,
+              planoFile: null, // No guardar el archivo en la base de datos
+              planoPreview: null, // No guardar la vista previa en la base de datos
+            };
+          }
+
+          // Si no hay un nuevo archivo pero hay una vista previa (URL existente)
+          if (!tipo.planoFile && tipo.planoPreview && !tipo.planoURL) {
+            return {
+              ...tipo,
+              planoURL: tipo.planoPreview,
+              planoFile: null,
+              planoPreview: null,
+            };
+          }
+
+          // Si no hay cambios, mantener la URL existente
+          return tipo;
+        })
+      );
+
       // Crear el objeto de proyecto actualizado
       const proyectoActualizado = {
         ...data,
         caracteristicas,
         areasComunes: areasActivas,
-        tiposDepartamentos: tiposDepartamentos.map(
+        tiposDepartamentos: tiposDepartamentosActualizados.map(
           ({ planoFile, planoPreview, ...resto }) => resto
         ),
         updatedAt: new Date().toISOString(),
@@ -484,22 +518,6 @@ export default function EditarProyectoPage() {
         );
       } else {
         proyectoActualizado.imagen = imagenPrincipalPreview;
-      }
-
-      // Actualizar el proyecto en Firebase
-      await actualizarProyecto(id, proyectoActualizado);
-
-      // Subir los planos de los tipos de departamentos
-      for (const tipo of tiposDepartamentos) {
-        if (tipo.planoFile) {
-          const path = `proyectos/${id}/planos/${tipo.id}_${Date.now()}_${
-            tipo.planoFile.name
-          }`;
-          const planoURL = await subirImagen(tipo.planoFile, path);
-
-          // Actualizar el tipo de departamento con la URL del plano
-          await actualizarTipoDepartamento(id, tipo.id, { planoURL });
-        }
       }
 
       // Procesar las imágenes de la galería
@@ -538,13 +556,14 @@ export default function EditarProyectoPage() {
       // Filtrar valores nulos
       const galeriaFiltrada = galeriaActualizada.filter((img) => img !== null);
 
-      // Actualizar el proyecto con la galería
-      if (galeriaFiltrada.length > 0) {
-        await actualizarProyecto(id, {
-          ...proyectoActualizado,
-          galeria: galeriaFiltrada,
-        });
-      }
+      // Actualizar el proyecto con todos los datos
+      await actualizarProyecto(id, {
+        ...proyectoActualizado,
+        galeria:
+          galeriaFiltrada.length > 0
+            ? galeriaFiltrada
+            : proyectoActualizado.galeria,
+      });
 
       toast.success("Proyecto actualizado", {
         description: "El proyecto ha sido actualizado exitosamente.",

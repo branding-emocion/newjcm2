@@ -97,7 +97,7 @@ function HistorySection() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Nuestra Historia
             </h2>
-            <div className="w-20 h-1 bg-blue-600 mb-8"></div>
+            <div className="w-20 h-1 bg-[#193148] mb-8"></div>
 
             <div className="space-y-6 text-gray-700">
               <p>
@@ -137,7 +137,7 @@ function HistorySection() {
                 className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-[#193148] rounded-lg flex items-center justify-center text-white">
               <div className="text-center">
                 <div className="text-3xl font-bold">12+</div>
                 <div className="text-sm">Años de experiencia</div>
@@ -213,7 +213,7 @@ function ValuesSection() {
             Estos principios fundamentales guían nuestro trabajo diario y nos
             ayudan a ofrecer proyectos inmobiliarios de la más alta calidad.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <motion.div
@@ -228,7 +228,7 @@ function ValuesSection() {
               variants={itemVariants}
               className="bg-white p-8 rounded-lg shadow-lg border border-gray-100 hover:border-blue-200 transition-all duration-300 hover:shadow-xl"
             >
-              <div className="text-blue-600 mb-4">{value.icon}</div>
+              <div className="#193148 mb-4">{value.icon}</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 {value.title}
               </h3>
@@ -261,7 +261,7 @@ function TeamSection() {
             Contamos con profesionales altamente calificados y comprometidos con
             la excelencia en cada proyecto.
           </p>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#193148] mx-auto mt-6"></div>
         </motion.div>
 
         <div className="relative">
@@ -408,7 +408,7 @@ function MilestonesSection() {
           </p>
           <Link
             href="/ProyectosEnVenta"
-            className="inline-flex items-center px-6 py-3 mt-8 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-6 py-3 mt-8 bg-[#193148] text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
           >
             Ver nuestros proyectos
           </Link>

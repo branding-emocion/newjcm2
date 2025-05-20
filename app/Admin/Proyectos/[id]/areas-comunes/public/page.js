@@ -155,7 +155,7 @@ export default function AreasComunesPublicPage({ params }) {
                 )}
               </div>
               <CardContent className="pt-6">
-                <h3 className="text-2xl font-bold mb-2 text-blue-600">
+                <h3 className="text-2xl font-bold mb-2 #193148">
                   {area.nombre.toUpperCase()}
                 </h3>
                 <p className="text-muted-foreground">

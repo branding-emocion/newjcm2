@@ -85,7 +85,7 @@ function ContactSection() {
     email: "",
     telefono: "",
     mensaje: "",
-    proyecto: "general",
+    // proyecto: "general",
   });
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -95,28 +95,55 @@ function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulación de envío de formulario
+    // Cambiar estado a cargando
     setFormStatus({ state: "loading", message: "Enviando mensaje..." });
 
-    // Simulación de respuesta exitosa después de 1.5 segundos
-    setTimeout(() => {
+    try {
+      // Enviar datos a la API real
+      const response = await fetch("/api/SendMailForm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      // Verificar si la respuesta fue exitosa
+      if (response.ok) {
+        const data = await response.json();
+        setFormStatus({
+          state: "success",
+          message:
+            "¡Mensaje enviado con éxito! Nos pondremos en contacto con usted a la brevedad.",
+        });
+        // Resetear el formulario
+        setFormData({
+          nombres: "",
+          apellidos: "",
+          email: "",
+          telefono: "",
+          mensaje: "",
+        });
+      } else {
+        // Si hubo un error en la respuesta
+        const errorData = await response.json();
+        setFormStatus({
+          state: "error",
+          message:
+            errorData.message ||
+            "Hubo un error al enviar el mensaje. Por favor, inténtelo de nuevo.",
+        });
+      }
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
       setFormStatus({
-        state: "success",
+        state: "error",
         message:
-          "¡Mensaje enviado con éxito! Nos pondremos en contacto con usted a la brevedad.",
+          "Hubo un error al enviar el mensaje. Por favor, inténtelo de nuevo.",
       });
-      // Resetear el formulario
-      setFormData({
-        nombres: "",
-        apellidos: "",
-        email: "",
-        telefono: "",
-        mensaje: "",
-        proyecto: "general",
-      });
-    }, 1500);
+    }
   };
 
   const contactInfo = [
@@ -162,7 +189,7 @@ function ContactSection() {
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Datos de Contacto
             </h2>
-            <div className="w-20 h-1 bg-blue-600 mb-8"></div>
+            <div className="w-20 h-1 bg-[#193148] mb-8"></div>
 
             <div className="space-y-8">
               {contactInfo.map((item, index) => (
@@ -175,7 +202,7 @@ function ContactSection() {
                   transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                   className="flex"
                 >
-                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-4">
+                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center #193148 mr-4">
                     {item.icon}
                   </div>
                   <div>
@@ -198,10 +225,10 @@ function ContactSection() {
               </h3>
               <div className="flex space-x-4">
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/jcmtrujillo/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
+                  className="h-10 w-10 rounded-full bg-[#193148] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -215,56 +242,6 @@ function ContactSection() {
                     strokeLinejoin="round"
                   >
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                  </svg>
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect
-                      x="2"
-                      y="2"
-                      width="20"
-                      height="20"
-                      rx="5"
-                      ry="5"
-                    ></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                </a>
-                <a
-                  href="https://youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
                   </svg>
                 </a>
               </div>
@@ -367,7 +344,7 @@ function ContactSection() {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <label
                     htmlFor="proyecto"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -386,7 +363,7 @@ function ContactSection() {
                     <option value="begonias">Las Begonias</option>
                     <option value="otro">Otro proyecto</option>
                   </select>
-                </div>
+                </div> */}
 
                 <div>
                   <label
@@ -411,14 +388,14 @@ function ContactSection() {
                     type="checkbox"
                     id="privacy"
                     required
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 #193148 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label
                     htmlFor="privacy"
                     className="ml-2 block text-sm text-gray-700"
                   >
                     Acepto la{" "}
-                    <a href="#" className="text-blue-600 hover:underline">
+                    <a href="#" className="#193148 hover:underline">
                       política de privacidad
                     </a>
                   </label>
@@ -427,7 +404,7 @@ function ContactSection() {
                 <button
                   type="submit"
                   disabled={formStatus.state === "loading"}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center"
+                  className="w-full bg-[#193148] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center"
                 >
                   {formStatus.state === "loading" ? (
                     <>
@@ -508,7 +485,7 @@ function MapSection() {
 
           <div className="absolute bottom-0 left-0 right-0 bg-white p-6 shadow-lg">
             <div className="flex items-center">
-              <div className="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-4">
+              <div className="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center #193148 mr-4">
                 <MapPin className="h-6 w-6" />
               </div>
               <div>
