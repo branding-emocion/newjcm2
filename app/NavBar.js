@@ -73,7 +73,7 @@ export default function Navbar() {
     { label: "QUIENES SOMOS", href: "/QuienesSomos" },
     {
       label: "PROYECTOS EN VENTA",
-      href: "/ProyectosEnVenta",
+      href: "#",
       children: loading
         ? [{ label: "Cargando...", href: "#" }]
         : error
@@ -84,7 +84,7 @@ export default function Navbar() {
     },
     {
       label: "PROYECTOS ENTREGADOS",
-      href: "/ProyectosEntregados",
+      href: "#",
       children: loading
         ? [{ label: "Cargando...", href: "#" }]
         : error
@@ -138,7 +138,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-1">
-          {navItems.map((item) => (
+          {navItems?.map((item) => (
             <div key={item.label} className="relative group">
               {item.children ? (
                 <>
