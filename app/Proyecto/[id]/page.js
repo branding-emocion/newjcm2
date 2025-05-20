@@ -1,5 +1,7 @@
 "use client";
 
+import { DialogTrigger } from "@/components/ui/dialog";
+
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -15,7 +17,6 @@ import {
   Coffee,
   Utensils,
   ChevronRight,
-  Download,
   ArrowDown,
   FileText,
 } from "lucide-react";
@@ -31,6 +32,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
+import { getProyectoPorId } from "@/lib/firebase/proyectos";
+// Add this import at the top with the other imports
 import {
   Dialog,
   DialogContent,
@@ -38,7 +41,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { getProyectoPorId } from "@/lib/firebase/proyectos";
 
 // Variantes de animación para framer-motion
 const fadeIn = {
@@ -103,12 +105,60 @@ export default function ProyectoPublicoPage() {
   const [proyecto, setProyecto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [verBrochureModalOpen, setVerBrochureModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    telefono: "",
+    email: "",
+    mensaje: "",
+  });
+  const [formStatus, setFormStatus] = useState({
+    loading: false,
+    success: false,
+    error: null,
+  });
+
+  const handleFormChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    setFormStatus({ loading: true, success: false, error: null });
+
+    try {
+      const response = await fetch("/api/SendMailForm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          proyecto: proyecto.nombre,
+          proyectoId: proyecto.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario");
+      }
+
+      setFormStatus({ loading: false, success: true, error: null });
+      setFormData({ nombre: "", telefono: "", email: "", mensaje: "" });
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      setFormStatus({ loading: false, success: false, error: error.message });
+    }
+  };
 
   useEffect(() => {
     const fetchProyecto = async () => {
       try {
         const data = await getProyectoPorId(id);
         setProyecto(data);
+        // Añadir este log para depuración
+        console.log("Proyecto cargado:", data);
+        console.log("Galería:", data?.galeria);
       } catch (error) {
         console.error("Error al cargar el proyecto:", error);
       } finally {
@@ -149,14 +199,16 @@ export default function ProyectoPublicoPage() {
   const tiposDepartamentos = proyecto.tiposDepartamentos || [];
 
   // Obtener las áreas comunes activas
-  const areasComunes = Object.entries(proyecto.areasComunes || {})
-    .filter(([_, area]) => area.activo)
-    .map(([key, area]) => ({
-      id: key,
-      nombre: getNombreArea(key),
-      descripcion: area.descripcion,
-      imagenURL: area.imagenURL,
-    }));
+  const areasComunes = proyecto.areasComunes
+    ? Object.entries(proyecto.areasComunes)
+        .filter(([_, area]) => area.activo)
+        .map(([key, area]) => ({
+          id: key,
+          nombre: getNombreArea(key),
+          descripcion: area.descripcion,
+          imagenURL: area.imagenURL,
+        }))
+    : [];
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
@@ -177,11 +229,13 @@ export default function ProyectoPublicoPage() {
               variants={staggerContainer}
               className="max-w-3xl"
             >
-              <motion.div variants={fadeIn}>
-                <Badge className="bg-[#1E88E5] text-white mb-4 px-4 py-1 text-sm rounded-full">
-                  {proyecto.estado === "en_venta" ? "EN VENTA" : "ENTREGADO"}
-                </Badge>
-              </motion.div>
+              {proyecto.estado && (
+                <motion.div variants={fadeIn}>
+                  <Badge className="bg-[#1E88E5] text-white mb-4 px-4 py-1 text-sm rounded-full">
+                    {proyecto.estado === "en_venta" ? "EN VENTA" : "ENTREGADO"}
+                  </Badge>
+                </motion.div>
+              )}
 
               <motion.h1
                 variants={fadeIn}
@@ -190,25 +244,32 @@ export default function ProyectoPublicoPage() {
                 {proyecto.nombre}
               </motion.h1>
 
-              <motion.p variants={fadeIn} className="text-xl md:text-2xl mb-8">
-                {proyecto.descripcion}
-              </motion.p>
+              {proyecto.descripcion && (
+                <motion.p
+                  variants={fadeIn}
+                  className="text-xl md:text-2xl mb-8"
+                >
+                  {proyecto.descripcion}
+                </motion.p>
+              )}
 
               <motion.div
                 variants={staggerContainer}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <motion.div variants={itemFadeIn}>
-                  <Button
-                    size="lg"
-                    className="bg-[#1E88E5] hover:bg-[#1976D2] text-white border-none"
-                  >
-                    <a href="#departamentos" className="flex items-center">
-                      Ver Departamentos{" "}
-                      <ChevronRight className="ml-2 h-4 w-4" />
-                    </a>
-                  </Button>
-                </motion.div>
+                {tiposDepartamentos.length > 0 && (
+                  <motion.div variants={itemFadeIn}>
+                    <Button
+                      size="lg"
+                      className="bg-[#1E88E5] hover:bg-[#1976D2] text-white border-none"
+                    >
+                      <a href="#departamentos" className="flex items-center">
+                        Ver Departamentos{" "}
+                        <ChevronRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                  </motion.div>
+                )}
 
                 {proyecto.videoUrl && (
                   <motion.div variants={itemFadeIn}>
@@ -235,14 +296,14 @@ export default function ProyectoPublicoPage() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <a
-                      href={proyecto?.brochureUrl}
+                      href={proyecto.brochureUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-col items-center  justify-center hover:cursor-pointer"
+                      className="flex flex-col items-center justify-center hover:cursor-pointer"
                     >
                       <Button
                         size="lg"
-                        className="bg-white text-[#1E88E5] hover:bg-white/90 border-none flex flex-row "
+                        className="bg-white text-[#1E88E5] hover:bg-white/90 border-none flex flex-row"
                       >
                         <FileText className="mr-2 h-4 w-4" /> Ver Brochure
                       </Button>
@@ -265,73 +326,244 @@ export default function ProyectoPublicoPage() {
         </motion.div>
       </section>
 
-      {/* Resumen del Proyecto */}
-      <motion.section
-        className="py-8 bg-white border-b"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={fadeIn}
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <motion.div
-              className="flex flex-col items-center text-center"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
-                FLATS DE
-              </h3>
-              <p className="text-2xl font-semibold">
-                {proyecto.areaMin} m² HASTA {proyecto.areaMax} m²
-              </p>
-            </motion.div>
+      {/* Resumen del Proyecto - Solo se muestra si hay datos relevantes */}
+      {(proyecto.areaMin ||
+        proyecto.areaMax ||
+        proyecto.ubicacion ||
+        tiposDepartamentos.length > 0 ||
+        proyecto.fechaEntrega) && (
+        <motion.section
+          className="py-8 bg-white border-b"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeIn}
+        >
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {(proyecto.areaMin || proyecto.areaMax) && (
+                <motion.div
+                  className="flex flex-col items-center text-center"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
+                    FLATS DE
+                  </h3>
+                  <p className="text-2xl font-semibold">
+                    {proyecto.areaMin} m² HASTA {proyecto.areaMax} m²
+                  </p>
+                </motion.div>
+              )}
 
-            <motion.div
-              className="flex flex-col items-center text-center"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
-                UBICACIÓN
-              </h3>
-              <p className="text-2xl font-semibold">{proyecto.ubicacion}</p>
-            </motion.div>
+              {proyecto.ubicacion && (
+                <motion.div
+                  className="flex flex-col items-center text-center"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
+                    UBICACIÓN
+                  </h3>
+                  <p className="text-2xl font-semibold">{proyecto.ubicacion}</p>
+                </motion.div>
+              )}
 
-            <motion.div
-              className="flex flex-col items-center text-center"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
-                DEPARTAMENTOS
-              </h3>
-              <p className="text-2xl font-semibold">
-                {tiposDepartamentos.length > 0
-                  ? `${Math.min(
+              {tiposDepartamentos.length > 0 && (
+                <motion.div
+                  className="flex flex-col items-center text-center"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
+                    DEPARTAMENTOS
+                  </h3>
+                  <p className="text-2xl font-semibold">
+                    {`${Math.min(
                       ...tiposDepartamentos.map((t) => t.dormitorios)
                     )} y ${Math.max(
                       ...tiposDepartamentos.map((t) => t.dormitorios)
-                    )} Dormitorios`
-                  : "Varios tipos"}
-              </p>
-            </motion.div>
+                    )} Dormitorios`}
+                  </p>
+                </motion.div>
+              )}
 
-            <motion.div
-              className="flex flex-col items-center text-center"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <h3 className="text-lg font-bold text-[#1E88E5] mb-2">ENTREGA</h3>
-              <p className="text-2xl font-semibold">{proyecto.fechaEntrega}</p>
-            </motion.div>
+              {proyecto.fechaEntrega && (
+                <motion.div
+                  className="flex flex-col items-center text-center"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <h3 className="text-lg font-bold text-[#1E88E5] mb-2">
+                    ENTREGA
+                  </h3>
+                  <p className="text-2xl font-semibold">
+                    {proyecto.fechaEntrega}
+                  </p>
+                </motion.div>
+              )}
+            </div>
           </div>
+        </motion.section>
+      )}
+
+      {/* Galería de Imágenes - Siempre se muestra */}
+      <motion.section
+        className="py-16 bg-white"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeIn}
+      >
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="flex flex-col items-center mb-12"
+            variants={fadeIn}
+          >
+            <h2 className="text-3xl font-bold text-center mb-3">
+              GALERÍA DEL PROYECTO
+            </h2>
+            <div className="w-20 h-1 bg-[#1E88E5]"></div>
+            <p className="text-lg text-gray-600 mt-4 text-center max-w-2xl">
+              Conoce todos los detalles de {proyecto.nombre}
+            </p>
+          </motion.div>
+
+          {Array.isArray(proyecto.galeria) && proyecto.galeria.length > 0 ? (
+            <>
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {proyecto.galeria.map((imagen) => (
+                    <CarouselItem
+                      key={imagen.id}
+                      className="md:basis-1/2 lg:basis-1/3"
+                    >
+                      <div className="p-1">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <motion.div
+                              whileHover={{ y: -10 }}
+                              transition={{ type: "spring", stiffness: 300 }}
+                              className="cursor-pointer"
+                            >
+                              <Card className="border-none shadow-lg overflow-hidden group">
+                                <div className="relative">
+                                  <Image
+                                    src={
+                                      imagen.url ||
+                                      "/placeholder.svg?height=400&width=600&query=apartment"
+                                    }
+                                    alt={
+                                      imagen.titulo ||
+                                      `Imagen de ${proyecto.nombre}`
+                                    }
+                                    width={600}
+                                    height={400}
+                                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <div className="p-4 text-white">
+                                      <p className="font-medium">
+                                        {imagen.descripcion}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <CardContent className="p-6 bg-white">
+                                  <h3 className="text-xl font-bold mb-2 text-[#1E88E5]">
+                                    {imagen.titulo || "Vista del proyecto"}
+                                  </h3>
+                                  {imagen.fecha && (
+                                    <p className="text-sm text-slate-500">
+                                      {new Date(
+                                        imagen.fecha
+                                      ).toLocaleDateString("es-ES", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                      })}
+                                    </p>
+                                  )}
+                                </CardContent>
+                              </Card>
+                            </motion.div>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl w-full">
+                            <DialogHeader>
+                              <DialogTitle>
+                                {imagen.titulo || "Vista del proyecto"}
+                              </DialogTitle>
+                              {imagen.descripcion && (
+                                <DialogDescription>
+                                  {imagen.descripcion}
+                                </DialogDescription>
+                              )}
+                            </DialogHeader>
+                            <div className="mt-4 flex justify-center">
+                              <Image
+                                src={
+                                  imagen.url ||
+                                  "/placeholder.svg?height=800&width=1200&query=apartment"
+                                }
+                                alt={
+                                  imagen.titulo ||
+                                  `Imagen de ${proyecto.nombre}`
+                                }
+                                width={1200}
+                                height={800}
+                                className="max-h-[70vh] w-auto object-contain"
+                              />
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="flex justify-center mt-8">
+                  <motion.div
+                    whileHover={{ scale: 1.1, x: -5 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <CarouselPrevious className="static mx-2 bg-[#1E88E5] text-white hover:bg-[#1976D2] hover:text-white" />
+                  </motion.div>
+                  <motion.div
+                    whileHover={{ scale: 1.1, x: 5 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <CarouselNext className="static mx-2 bg-[#1E88E5] text-white hover:bg-[#1976D2] hover:text-white" />
+                  </motion.div>
+                </div>
+              </Carousel>
+
+              {proyecto.galeria.length > 6 && (
+                <motion.div
+                  className="flex justify-center mt-8"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button className="bg-[#1E88E5] hover:bg-[#1976D2]">
+                    Ver todas las imágenes ({proyecto.galeria.length})
+                  </Button>
+                </motion.div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <Building className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+              <p className="text-gray-500 text-lg">
+                No hay imágenes disponibles para este proyecto.
+              </p>
+              <p className="text-gray-400 mt-2">
+                Consulta más información en el brochure o contáctanos.
+              </p>
+            </div>
+          )}
         </div>
       </motion.section>
 
-      {/* Banner de Brochure */}
-      {proyecto.brochureURL && (
+      {/* Banner de Brochure - Solo si existe brochureUrl */}
+      {proyecto.brochureUrl && (
         <motion.section
           className="py-6 bg-[#1E88E5]"
           initial="hidden"
@@ -354,20 +586,25 @@ export default function ProyectoPublicoPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button
-                  size="lg"
-                  className="bg-white text-[#1E88E5] hover:bg-white/90 border-none"
-                  onClick={() => setVerBrochureModalOpen(true)}
+                <a
+                  href={proyecto.brochureUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <FileText className="mr-2 h-4 w-4" /> Ver Brochure
-                </Button>
+                  <Button
+                    size="lg"
+                    className="bg-white text-[#1E88E5] hover:bg-white/90 border-none"
+                  >
+                    <FileText className="mr-2 h-4 w-4" /> Ver Brochure
+                  </Button>
+                </a>
               </motion.div>
             </div>
           </div>
         </motion.section>
       )}
 
-      {/* Características Principales */}
+      {/* Características Principales - Solo si hay características */}
       {proyecto.caracteristicas && proyecto.caracteristicas.length > 0 && (
         <motion.section
           className="py-16 bg-gray-50"
@@ -423,7 +660,7 @@ export default function ProyectoPublicoPage() {
         </motion.section>
       )}
 
-      {/* Departamentos */}
+      {/* Departamentos - Solo si hay tipos de departamentos */}
       {tiposDepartamentos.length > 0 && (
         <section id="departamentos" className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -455,7 +692,7 @@ export default function ProyectoPublicoPage() {
                 variants={scaleUp}
               >
                 <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 h-auto bg-gray-100 p-1 rounded-lg">
-                  {tiposDepartamentos.map((tipo, index) => (
+                  {tiposDepartamentos.map((tipo) => (
                     <TabsTrigger
                       key={tipo.id}
                       value={tipo.id.toString()}
@@ -467,7 +704,7 @@ export default function ProyectoPublicoPage() {
                 </TabsList>
               </motion.div>
 
-              {tiposDepartamentos?.map((tipo) => (
+              {tiposDepartamentos.map((tipo) => (
                 <TabsContent
                   key={tipo.id}
                   value={tipo.id.toString()}
@@ -527,37 +764,39 @@ export default function ProyectoPublicoPage() {
                         Precio: ${tipo.precio.toLocaleString()}
                       </p>
 
-                      <motion.div
-                        className="bg-gray-50 p-6 rounded-lg mb-6"
-                        whileHover={{
-                          boxShadow:
-                            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                        }}
-                      >
-                        <h4 className="text-xl font-semibold mb-4 text-[#1E88E5]">
-                          Características
-                        </h4>
-                        <motion.ul
-                          className="space-y-3"
-                          variants={staggerContainer}
-                          initial="hidden"
-                          animate="visible"
+                      {tipo.caracteristicas && (
+                        <motion.div
+                          className="bg-gray-50 p-6 rounded-lg mb-6"
+                          whileHover={{
+                            boxShadow:
+                              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                          }}
                         >
-                          {tipo.caracteristicas
-                            .split(",")
-                            .map((caracteristica, index) => (
-                              <motion.li
-                                key={index}
-                                className="flex items-start"
-                                variants={itemFadeIn}
-                                whileHover={{ x: 5 }}
-                              >
-                                <ChevronRight className="mr-2 h-5 w-5 text-[#1E88E5] flex-shrink-0 mt-0.5" />
-                                <span>{caracteristica.trim()}</span>
-                              </motion.li>
-                            ))}
-                        </motion.ul>
-                      </motion.div>
+                          <h4 className="text-xl font-semibold mb-4 text-[#1E88E5]">
+                            Características
+                          </h4>
+                          <motion.ul
+                            className="space-y-3"
+                            variants={staggerContainer}
+                            initial="hidden"
+                            animate="visible"
+                          >
+                            {tipo.caracteristicas
+                              .split(",")
+                              .map((caracteristica, index) => (
+                                <motion.li
+                                  key={index}
+                                  className="flex items-start"
+                                  variants={itemFadeIn}
+                                  whileHover={{ x: 5 }}
+                                >
+                                  <ChevronRight className="mr-2 h-5 w-5 text-[#1E88E5] flex-shrink-0 mt-0.5" />
+                                  <span>{caracteristica.trim()}</span>
+                                </motion.li>
+                              ))}
+                          </motion.ul>
+                        </motion.div>
+                      )}
 
                       <div className="flex flex-col sm:flex-row gap-4">
                         <motion.div
@@ -569,18 +808,24 @@ export default function ProyectoPublicoPage() {
                           </Button>
                         </motion.div>
 
-                        {proyecto.brochureURL && (
+                        {proyecto.brochureUrl && (
                           <motion.div
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <Button
-                              variant="outline"
-                              className="border-[#1E88E5] text-[#1E88E5] w-full"
-                              onClick={() => setVerBrochureModalOpen(true)}
+                            <a
+                              href={proyecto.brochureUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
-                              <FileText className="mr-2 h-4 w-4" /> Ver Brochure
-                            </Button>
+                              <Button
+                                variant="outline"
+                                className="border-[#1E88E5] text-[#1E88E5] w-full"
+                              >
+                                <FileText className="mr-2 h-4 w-4" /> Ver
+                                Brochure
+                              </Button>
+                            </a>
                           </motion.div>
                         )}
                       </div>
@@ -593,155 +838,129 @@ export default function ProyectoPublicoPage() {
         </section>
       )}
 
-      {/* Ubicación */}
-      <motion.section
-        className="py-16 bg-gray-50"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeIn}
-      >
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="flex flex-col items-center mb-12"
+      {/* Ubicación - Solo si hay ubicación */}
+      {proyecto.ubicacion &&
+        proyecto.lugaresProximos &&
+        Object.keys(proyecto.lugaresProximos).length > 0 && (
+          <motion.section
+            className="py-16 bg-gray-50"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
             variants={fadeIn}
           >
-            <h2 className="text-3xl font-bold text-center mb-3">
-              UBICACIÓN PRIVILEGIADA
-            </h2>
-            <div className="w-20 h-1 bg-[#1E88E5]"></div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              className="order-2 md:order-1"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={slideFromLeft}
-            >
+            <div className="container mx-auto px-4">
               <motion.div
-                className="bg-white p-6 rounded-lg shadow-lg"
-                whileHover={{
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                }}
+                className="flex flex-col items-center mb-12"
+                variants={fadeIn}
               >
-                <h3 className="text-2xl font-bold mb-6 text-[#1E88E5]">
-                  LO QUE NECESITAS CERCA DE TI
-                </h3>
-
-                <motion.div
-                  className="grid grid-cols-2 gap-4 mb-8"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <motion.div variants={itemFadeIn}>
-                    <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <h4 className="font-semibold mb-2 flex items-center">
-                          <span className="w-3 h-3 bg-[#1E88E5] rounded-full mr-2"></span>
-                          CENTROS COMERCIALES
-                        </h4>
-                        <p className="text-sm text-slate-600">
-                          Centros comerciales a minutos de distancia
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  <motion.div variants={itemFadeIn}>
-                    <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <h4 className="font-semibold mb-2 flex items-center">
-                          <span className="w-3 h-3 bg-[#1E88E5] rounded-full mr-2"></span>
-                          UNIVERSIDADES
-                        </h4>
-                        <p className="text-sm text-slate-600">
-                          Universidades cercanas
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  <motion.div variants={itemFadeIn}>
-                    <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <h4 className="font-semibold mb-2 flex items-center">
-                          <span className="w-3 h-3 bg-[#1E88E5] rounded-full mr-2"></span>
-                          HOTELES
-                        </h4>
-                        <p className="text-sm text-slate-600">
-                          Hoteles de lujo en la zona
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  <motion.div variants={itemFadeIn}>
-                    <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <h4 className="font-semibold mb-2 flex items-center">
-                          <span className="w-3 h-3 bg-[#1E88E5] rounded-full mr-2"></span>
-                          ZONAS EXCLUSIVAS
-                        </h4>
-                        <p className="text-sm text-slate-600">Zona exclusiva</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </motion.div>
+                <h2 className="text-3xl font-bold text-center mb-3">
+                  UBICACIÓN PRIVILEGIADA
+                </h2>
+                <div className="w-20 h-1 bg-[#1E88E5]"></div>
               </motion.div>
-            </motion.div>
 
-            <motion.div
-              className="order-1 md:order-2"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={slideFromRight}
-            >
-              <div className="relative">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
                 <motion.div
-                  className="absolute -top-4 -right-4 bg-[#1E88E5] text-white px-4 py-2 rounded-bl-lg font-semibold z-10"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300 }}
+                  className="order-2 md:order-1"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  variants={slideFromLeft}
                 >
-                  Ubicación Estratégica
+                  <motion.div
+                    className="bg-white p-6 rounded-lg shadow-lg"
+                    whileHover={{
+                      boxShadow:
+                        "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    }}
+                  >
+                    <h3 className="text-2xl font-bold mb-6 text-[#1E88E5]">
+                      LO QUE NECESITAS CERCA DE TI
+                    </h3>
+
+                    <motion.div
+                      className="grid grid-cols-2 gap-4 mb-8"
+                      variants={staggerContainer}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      {Object.entries(proyecto.lugaresProximos).map(
+                        ([key, lugar], index) =>
+                          lugar.activo && (
+                            <motion.div key={key} variants={itemFadeIn}>
+                              <Card className="border-none shadow-sm hover:shadow-md transition-shadow">
+                                <CardContent className="p-4">
+                                  <h4 className="font-semibold mb-2 flex items-center">
+                                    <span className="w-3 h-3 bg-[#1E88E5] rounded-full mr-2"></span>
+                                    {lugar.nombre?.toUpperCase() ||
+                                      getNombreLugar(key).toUpperCase()}
+                                  </h4>
+                                  <p className="text-sm text-slate-600">
+                                    {lugar.descripcion || ""}
+                                  </p>
+                                </CardContent>
+                              </Card>
+                            </motion.div>
+                          )
+                      )}
+                    </motion.div>
+                  </motion.div>
                 </motion.div>
+
                 <motion.div
-                  className="rounded-lg overflow-hidden shadow-xl border-4 border-white"
-                  whileHover={{
-                    scale: 1.02,
-                    boxShadow:
-                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
+                  className="order-1 md:order-2"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  variants={slideFromRight}
                 >
-                  <Image
-                    src={proyecto.imagen || "/modern-city-building.png"}
-                    alt={`Ubicación ${proyecto.nombre}`}
-                    width={800}
-                    height={500}
-                    className="w-full h-auto"
-                    objectFit="cover"
-                  />
-                </motion.div>
-                <motion.div
-                  className="bg-white py-3 px-6 rounded-b-lg shadow-lg flex items-center justify-center"
-                  whileHover={{ y: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <MapPin className="text-[#1E88E5] mr-2" />
-                  <p className="font-medium">{proyecto.ubicacion}</p>
+                  <div className="relative">
+                    <motion.div
+                      className="absolute -top-4 -right-4 bg-[#1E88E5] text-white px-4 py-2 rounded-bl-lg font-semibold z-10"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      Ubicación Estratégica
+                    </motion.div>
+                    <motion.div
+                      className="rounded-lg overflow-hidden shadow-xl border-4 border-white"
+                      whileHover={{
+                        scale: 1.02,
+                        boxShadow:
+                          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                      }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <Image
+                        src={
+                          proyecto.imagenUbicacion ||
+                          proyecto.imagen ||
+                          "/modern-city-building.png"
+                        }
+                        alt={`Ubicación ${proyecto.nombre}`}
+                        width={800}
+                        height={500}
+                        className="w-full h-auto"
+                        objectFit="cover"
+                      />
+                    </motion.div>
+                    <motion.div
+                      className="bg-white py-3 px-6 rounded-b-lg shadow-lg flex items-center justify-center"
+                      whileHover={{ y: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <MapPin className="text-[#1E88E5] mr-2" />
+                      <p className="font-medium">{proyecto.ubicacion}</p>
+                    </motion.div>
+                  </div>
                 </motion.div>
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
+            </div>
+          </motion.section>
+        )}
 
-      {/* Áreas Comunes */}
+      {/* Áreas Comunes - Solo si hay áreas comunes */}
       {areasComunes.length > 0 && (
         <motion.section
           className="py-16 bg-white"
@@ -779,7 +998,7 @@ export default function ProyectoPublicoPage() {
                         <Card className="border-none shadow-lg overflow-hidden group">
                           <div className="relative">
                             <Image
-                              src={area?.imagenURL}
+                              src={area.imagenURL || getImageForArea(area.id)}
                               alt={area.nombre}
                               width={600}
                               height={400}
@@ -826,8 +1045,8 @@ export default function ProyectoPublicoPage() {
         </motion.section>
       )}
 
-      {/* Banner de Brochure */}
-      {proyecto.brochureURL && (
+      {/* Banner de Brochure - Solo si existe brochureUrl */}
+      {proyecto.brochureUrl && (
         <motion.section
           className="py-10 bg-gradient-to-r from-[#1565C0] to-[#1E88E5]"
           initial="hidden"
@@ -854,20 +1073,25 @@ export default function ProyectoPublicoPage() {
                 whileTap={{ scale: 0.95 }}
                 className="flex"
               >
-                <Button
-                  size="lg"
-                  className="bg-white text-[#1E88E5] hover:bg-white/90 border-none text-lg px-8 py-6"
-                  onClick={() => setVerBrochureModalOpen(true)}
+                <a
+                  href={proyecto.brochureUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <FileText className="mr-2 h-5 w-5" /> Ver Brochure
-                </Button>
+                  <Button
+                    size="lg"
+                    className="bg-white text-[#1E88E5] hover:bg-white/90 border-none text-lg px-8 py-6"
+                  >
+                    <FileText className="mr-2 h-5 w-5" /> Ver Brochure
+                  </Button>
+                </a>
               </motion.div>
             </div>
           </div>
         </motion.section>
       )}
 
-      {/* Contacto */}
+      {/* Contacto - Siempre se muestra */}
       <motion.section
         className="py-16 bg-gradient-to-r from-[#1565C0] to-[#1E88E5] text-white"
         initial="hidden"
@@ -895,17 +1119,19 @@ export default function ProyectoPublicoPage() {
                 initial="hidden"
                 animate="visible"
               >
-                <motion.div
-                  className="flex items-start bg-white/10 p-4 rounded-lg"
-                  variants={itemFadeIn}
-                  whileHover={{
-                    x: 5,
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                  }}
-                >
-                  <MapPin className="mr-4 mt-1 flex-shrink-0" />
-                  <p>{proyecto.ubicacion}</p>
-                </motion.div>
+                {proyecto.ubicacion && (
+                  <motion.div
+                    className="flex items-start bg-white/10 p-4 rounded-lg"
+                    variants={itemFadeIn}
+                    whileHover={{
+                      x: 5,
+                      backgroundColor: "rgba(255,255,255,0.2)",
+                    }}
+                  >
+                    <MapPin className="mr-4 mt-1 flex-shrink-0" />
+                    <p>{proyecto.ubicacion}</p>
+                  </motion.div>
+                )}
 
                 <motion.div
                   className="flex items-start bg-white/10 p-4 rounded-lg"
@@ -1013,7 +1239,7 @@ export default function ProyectoPublicoPage() {
                   SOLICITA INFORMACIÓN
                 </h3>
 
-                <form className="space-y-5">
+                <form className="space-y-5" onSubmit={handleSubmitForm}>
                   <div>
                     <label
                       htmlFor="nombre"
@@ -1025,6 +1251,8 @@ export default function ProyectoPublicoPage() {
                       whileFocus={{ scale: 1.01 }}
                       type="text"
                       id="nombre"
+                      value={formData.nombre}
+                      onChange={handleFormChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E88E5] focus:border-transparent"
                       placeholder="Tu nombre"
                     />
@@ -1041,6 +1269,8 @@ export default function ProyectoPublicoPage() {
                       whileFocus={{ scale: 1.01 }}
                       type="tel"
                       id="telefono"
+                      value={formData.telefono}
+                      onChange={handleFormChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E88E5] focus:border-transparent"
                       placeholder="Tu teléfono"
                     />
@@ -1057,6 +1287,8 @@ export default function ProyectoPublicoPage() {
                       whileFocus={{ scale: 1.01 }}
                       type="email"
                       id="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E88E5] focus:border-transparent"
                       placeholder="Tu correo"
                     />
@@ -1072,6 +1304,8 @@ export default function ProyectoPublicoPage() {
                     <motion.textarea
                       whileFocus={{ scale: 1.01 }}
                       id="mensaje"
+                      value={formData.mensaje}
+                      onChange={handleFormChange}
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E88E5] focus:border-transparent"
                       placeholder="¿En qué podemos ayudarte?"
@@ -1086,12 +1320,25 @@ export default function ProyectoPublicoPage() {
                       <Button
                         type="submit"
                         className="w-full bg-[#1E88E5] hover:bg-[#1976D2] text-lg py-6"
+                        disabled={formStatus.loading}
                       >
-                        Enviar mensaje
+                        {formStatus.loading ? "Enviando..." : "Enviar mensaje"}
                       </Button>
                     </motion.div>
                   </div>
                 </form>
+
+                {formStatus.success && (
+                  <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-md">
+                    ¡Mensaje enviado con éxito! Nos pondremos en contacto
+                    contigo pronto.
+                  </div>
+                )}
+                {formStatus.error && (
+                  <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
+                    Error: {formStatus.error}. Por favor, intenta nuevamente.
+                  </div>
+                )}
               </motion.div>
             </motion.div>
           </div>
@@ -1200,4 +1447,22 @@ function getImageForArea(areaId) {
   };
 
   return imageMap[areaId] || "/modern-apartment-building.png";
+}
+
+// Función para obtener el nombre legible de un lugar cercano
+function getNombreLugar(key) {
+  const nombres = {
+    centrosComerciales: "Centros Comerciales",
+    universidades: "Universidades",
+    hoteles: "Hoteles",
+    zonasExclusivas: "Zonas Exclusivas",
+    parques: "Parques",
+    hospitales: "Hospitales",
+    colegios: "Colegios",
+    restaurantes: "Restaurantes",
+    transporte: "Transporte Público",
+    bancos: "Bancos",
+  };
+
+  return nombres[key] || key;
 }

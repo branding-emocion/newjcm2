@@ -137,7 +137,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-1">
+        <nav className="hidden lg:flex items-center space-x-1 hover:cursor-pointer">
           {navItems?.map((item) => (
             <div key={item.label} className="relative group">
               {item.children ? (
@@ -145,7 +145,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "px-4 py-2 text-sm font-medium flex items-center transition-colors rounded-md group-hover:text-[#193148]",
+                      "px-4 py-2 text-sm font-medium flex items-center transition-colors rounded-md group-hover:text-[#193148] ",
                       pathname.startsWith(item.href)
                         ? "text-[#193148]"
                         : "text-gray-700 hover:text-[#193148] hover:bg-gray-50"

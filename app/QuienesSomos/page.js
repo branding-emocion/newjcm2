@@ -406,12 +406,12 @@ function MilestonesSection() {
             interiores, Puertas Blindadas, artefactos, electrodomésticos, entre
             otros.
           </p>
-          <Link
+          {/* <Link
             href="/ProyectosEnVenta"
             className="inline-flex items-center px-6 py-3 mt-8 bg-[#193148] text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
           >
             Ver nuestros proyectos
-          </Link>
+          </Link> */}
         </motion.div>
       </div>
     </section>
