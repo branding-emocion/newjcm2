@@ -59,7 +59,7 @@ const Login = () => {
   };
 
   return (
-    <main className="bg-black min-h-screen">
+    <main className="  min-h-screen">
       <div className="flex justify-center h-screen">
         <div
           className="hidden bg-cover lg:block lg:w-2/3"
@@ -82,11 +82,11 @@ const Login = () => {
           </div>
         </div>
         <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
-          <div className="flex-1 text-white">
+          <div className="flex-1  ">
             <div className="text-center">
               <figure className="my-2 md:w-full md:h-full md:flex md:justify-center md:mx-auto mr-2 rounded-md overflow-hidden">
                 <Image
-                  src={`/LogoNego.svg`}
+                  src={`/logo.png`}
                   width={250}
                   height={250}
                   alt="Inicio"

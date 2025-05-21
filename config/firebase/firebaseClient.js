@@ -17,6 +17,6 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore();
 const auth = getAuth(app);
 
-const storage = getStorage(app, "gs://alva-inmobiliario.appspot.com");
+const storage = getStorage(app, "gs://nuevo-jcm.firebasestorage.app");
 //google provider
 export { db, auth, app, storage };
