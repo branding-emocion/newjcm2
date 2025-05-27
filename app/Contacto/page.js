@@ -3,7 +3,17 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send,
+  CheckCircle,
+  InstagramIcon,
+  Facebook,
+  Youtube,
+} from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -225,24 +235,45 @@ function ContactSection() {
               </h3>
               <div className="flex space-x-4">
                 <a
-                  href="https://www.facebook.com/jcmtrujillo/"
+                  href="https://www.instagram.com/jcm_constructorainmobiliaria/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-10 w-10 rounded-full bg-[#193148] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
+                >
+                  <InstagramIcon className="h-6 w-6 flex justify-center items-center" />
+                </a>
+                <a
+                  href="https://www.tiktok.com/@jcminmobiliariaperu"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-10 w-10 rounded-full bg-[#193148] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    fill="currentColor"
+                    strokeWidth={0}
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 flex justify-center items-center"
                   >
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z" />
                   </svg>
+                </a>
+                <a
+                  href="https://www.facebook.com/jcmtrujillo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-10 w-10 rounded-full bg-[#193148] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
+                >
+                  <Facebook className="h-6 w-6 flex justify-center items-center" />
+                </a>
+                <a
+                  href="https://www.youtube.com/@jcminmobiliaria3542"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-10 w-10 rounded-full bg-[#193148] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
+                >
+                  <Youtube cclassName="h-7 w-7 flex justify-center items-center" />
                 </a>
               </div>
             </div>
