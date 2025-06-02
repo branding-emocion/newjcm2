@@ -1157,29 +1157,35 @@ export default function ProyectoPublicoPage() {
                   <p>ventas@inmobiliaria.com</p>
                 </motion.div>
 
-                <motion.div
+                <motion.a
                   className="flex items-start bg-white/10 p-4 rounded-lg"
                   variants={itemFadeIn}
                   whileHover={{
                     x: 5,
                     backgroundColor: "rgba(255,255,255,0.2)",
                   }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.jcmconstrucciones.com"
                 >
                   <Globe className="mr-4 mt-1 flex-shrink-0" />
-                  <p>www.inmobiliaria.com</p>
-                </motion.div>
+                  <p>www.jcmconstrucciones.com</p>
+                </motion.a>
 
-                <motion.div
+                <motion.a
                   className="flex items-start bg-white/10 p-4 rounded-lg"
                   variants={itemFadeIn}
                   whileHover={{
                     x: 5,
                     backgroundColor: "rgba(255,255,255,0.2)",
                   }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/jcm_constructorainmobiliaria/"
                 >
                   <Instagram className="mr-4 mt-1 flex-shrink-0" />
                   <p>@inmobiliaria</p>
-                </motion.div>
+                </motion.a>
               </motion.div>
 
               {proyecto.videoUrl && (

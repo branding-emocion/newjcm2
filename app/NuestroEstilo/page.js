@@ -243,9 +243,8 @@ function MaterialsSection() {
 
   const materials = [
     {
-      name: "Porcelanato Italiano",
-      description:
-        "Acabados de la más alta calidad importados directamente de Italia.",
+      name: "Porcelanato Importado",
+      description: "Acabados de la más alta calidad importados.",
       image: "/materials/PorcelanatoItaliano.jpg",
     },
     {
@@ -261,8 +260,8 @@ function MaterialsSection() {
       image: "/materials/BañoSuspendido.jpg",
     },
     {
-      name: "Puertas de Seguridad",
-      description: "Puertas blindadas que garantizan la seguridad de su hogar.",
+      name: "Puertas de calidad",
+      description: "Puertas que garantizan la seguridad de su hogar.",
       image: "/materials/Puertas.jpg",
     },
   ];
