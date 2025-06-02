@@ -71,7 +71,7 @@ const DashboardLayout = ({ children, marcas = [], cantReservas = 0 }) => {
                   </Avatar>
                   <div className="flex flex-col items-start">
                     <span className="text-sm font-medium">
-                      {user.displayName || "No Disponible"}
+                      {user.displayName || "Admin JCM"}
                     </span>
                     <span className="text-xs text-muted-foreground">
                       {claims?.Rol || "Usuario"}

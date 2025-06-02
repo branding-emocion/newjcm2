@@ -169,6 +169,8 @@ export default function ProyectoPublicoPage() {
     fetchProyecto();
   }, [id]);
 
+  console.log("proyecto", proyecto);
+
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen items-center justify-center">
@@ -646,7 +648,7 @@ export default function ProyectoPublicoPage() {
                           whileHover={{ scale: 1.2, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 400 }}
                         >
-                          {getIconForCaracteristica(caracteristica, index)}
+                          {/* {getIconForCaracteristica(caracteristica, index)} */}
                         </motion.div>
                         <h3 className="text-lg font-semibold text-center">
                           {caracteristica.toUpperCase()}
