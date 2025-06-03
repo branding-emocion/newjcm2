@@ -30,7 +30,7 @@ export async function POST(request) {
   const mailOptions = {
     from: '"Contacto de Contacto JCM" <notificacion@brandingemocion.net>', // El remitente del correo
     // to: `info@jcmconstructora.com,ventas@jcmconstructora.com`, // Enviar a la empresa y al cliente
-    to: "jhonned01@gmail.com", // Enviar a la empresa y al cliente
+    to: "info@jcmconstructora.com,ventas@jcmconstructora.com,dweb@brandingemocion.com,psolar@emocion.pe", // Enviar a la empresa y al cliente
     subject: ` Formulario de Contacto JCM`, // Asunto del correo
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 10px; background-color: #f9f9f9;">
