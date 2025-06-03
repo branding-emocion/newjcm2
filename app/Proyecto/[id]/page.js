@@ -19,6 +19,8 @@ import {
   ChevronRight,
   ArrowDown,
   FileText,
+  CircleParking,
+  Store,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -648,7 +650,7 @@ export default function ProyectoPublicoPage() {
                           whileHover={{ scale: 1.2, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 400 }}
                         >
-                          {/* {getIconForCaracteristica(caracteristica, index)}  */}
+                          {getIconForCaracteristica(caracteristica, index)}
                         </motion.div>
                         <h3 className="text-lg font-semibold text-center">
                           {caracteristica.toUpperCase()}
@@ -1380,6 +1382,9 @@ function getNombreArea(key) {
 
 // Función para obtener un icono para una característica
 function getIconForCaracteristica(caracteristica, index) {
+  console.log("caracteristica", caracteristica);
+  console.log("index", index);
+
   const iconMap = {
     "estructura antisísmica": (
       <Building className="h-12 w-12 mb-4 text-[#1E88E5]" />
@@ -1403,6 +1408,11 @@ function getIconForCaracteristica(caracteristica, index) {
     gimnasio: <Dumbbell className="h-12 w-12 mb-4 text-[#1E88E5]" />,
     "área de coworking": <Coffee className="h-12 w-12 mb-4 text-[#1E88E5]" />,
     "área de parrillas": <Utensils className="h-12 w-12 mb-4 text-[#1E88E5]" />,
+    Estacionamientos: (
+      <CircleParking className="h-12 w-12 mb-4 text-[#1E88E5]" />
+    ),
+
+    "Área de tendales": <Store className="h-12 w-12 mb-4 text-[#1E88E5]" />,
   };
 
   // Buscar coincidencias parciales en el mapa de iconos
