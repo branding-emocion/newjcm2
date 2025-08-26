@@ -11,7 +11,7 @@ const Main = ({ children }) => {
 
   return (
     <main>
-      {pathname.includes("/Admin") ? (
+      {pathname.includes("/Admin") || pathname.includes("/infogolfview") ? (
         <>{children}</>
       ) : (
         <>
